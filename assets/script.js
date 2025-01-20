@@ -446,7 +446,6 @@ function envoyerNouveauTravail(formulaire, titre) {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        // body: JSON.stringify(data),
         body: formData,
     }).then((reponse) => {
         if (reponse.status === 201) {
@@ -454,13 +453,6 @@ function envoyerNouveauTravail(formulaire, titre) {
             texteAlerte.textContent = "Ajout réussi";
             validationAlerte(alerte, iconeCheck);
             disparitionAlerte();
-            // let reader = new FileReader(); // FileReader permet de lire le contenu des fichiers.
-            // reader.readAsDataURL(inputFile.files[0]); // on recupere le premier fichier dans la liste des fichiers sélectionnés
-            // // se déclenche lorsque la lecture du fichier est terminée
-            // reader.addEventListener("load", () => {
-            //     ajoutDynamiqueModale(reader.result);
-            //     ajoutDynamiqueGalerie(reader.result, titre);
-            // });
             formulaire.reset(); //vider le formulaire après validation
             effacerImage(visualisation, contenuDepot);
             nouvelAppel();
@@ -481,44 +473,3 @@ function envoyerNouveauTravail(formulaire, titre) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////// Apparition dynamique image après ajout //////////////////////////////////////
-
-// function ajoutDynamiqueGalerie(url, titre) {
-//     const figure = document.createElement("figure");
-//     const image = document.createElement("img");
-//     const nomImage = document.createElement("figcaption");
-
-//     image.src = url;
-//     image.alt = titre;
-//     nomImage.innerText = titre;
-
-//     galerie.appendChild(figure);
-//     figure.appendChild(image);
-//     figure.appendChild(nomImage);
-//     tableau_figure.push(figure);
-// }
-
-// function ajoutDynamiqueModale(url) {
-//     const imageModale = document.createElement("img");
-//     const corbeille = document.createElement("i");
-
-//     imageModale.src = url;
-//     corbeille.classList.add("fa-solid");
-//     corbeille.classList.add("fa-trash-can");
-
-//     const container = document.createElement("div");
-//     container.classList.add("container-modale");
-
-//     container.appendChild(imageModale);
-//     container.appendChild(corbeille);
-
-//     modalePage1.appendChild(container);
-
-//     tableau_container.push(container);
-
-//     corbeille.addEventListener("click", function () {
-//         // supprimerPhoto(travaux[i].id, container, i);
-//     });
-// }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
