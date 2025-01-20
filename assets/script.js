@@ -15,7 +15,6 @@ const divFiltres = document.querySelector(".filtres");
 
 // Création de tableau
 let tableau_figure = []; // pour stocker les images et textes de la galerie et pouvoir les masquer si suppression
-let tableau_container = []; // pour faire réapparaitre les images dans la modale
 
 // En lien avec la modale
 const overlay = document.querySelector(".overlay");
@@ -188,7 +187,6 @@ if (token) {
     lienLogin.addEventListener("click", function () {
         localStorage.removeItem("token");
         lienLogin.textContent = "login";
-        window.location.href = "index.html";
     });
 }
 
@@ -229,8 +227,6 @@ function apparaitrePhotosModale(travaux) {
 
         modalePage1.appendChild(container);
 
-        tableau_container.push(container);
-
         corbeille.addEventListener("click", function () {
             supprimerPhoto(travaux[i].id, container, i);
         });
@@ -241,14 +237,6 @@ apparaitrePhotosModale(travaux);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////// Navigation modale //////////////////////////////////////////////////
-
-// fonction pour réafficher les images en cliquant sur la flèche de retour
-function ReapparaitreImageModale(tableau) {
-    modalePage1.innerHTML = "";
-    for (let i = 0; i < tableau.length; i++) {
-        modalePage1.appendChild(tableau[i]);
-    }
-}
 
 // passage à la seconde modale
 boutonAjoutPhoto.addEventListener("click", function () {
@@ -272,7 +260,6 @@ fleche.addEventListener("click", function () {
     modalePageAjoutPhoto.style.display = "none";
     modalePage1.style.display = "grid";
     modaleClose.style.justifyContent = "flex-end";
-    // ReapparaitreImageModale(tableau_container);
     boutonAjoutPhoto.style.display = "inline";
     boutonValider.style.display = "none";
 });
@@ -439,7 +426,7 @@ async function nouvelAppel() {
 }
 
 // fonction pour l'ajout d'un work dans l'API et traiter la réponse
-function envoyerNouveauTravail(formulaire, titre) {
+function envoyerNouveauTravail(formulaire) {
     let formData = new FormData(formulaire);
     fetch("http://localhost:5678/api/works", {
         method: "POST",
