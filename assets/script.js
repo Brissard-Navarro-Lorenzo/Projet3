@@ -13,9 +13,6 @@ const recupCategories = await demandeCategories.json();
 const galerie = document.querySelector(".gallery");
 const divFiltres = document.querySelector(".filtres");
 
-// Création de tableau
-let tableau_figure = []; // pour stocker les images et textes de la galerie et pouvoir les masquer si suppression
-
 // En lien avec la modale
 const overlay = document.querySelector(".overlay");
 const modale = document.querySelector(".modale");
@@ -61,7 +58,6 @@ function apparaitrePhotosGalerie(travaux) {
         galerie.appendChild(figure);
         figure.appendChild(image);
         figure.appendChild(nomImage);
-        tableau_figure.push(figure);
     }
 }
 
@@ -228,7 +224,7 @@ function apparaitrePhotosModale(travaux) {
         modalePage1.appendChild(container);
 
         corbeille.addEventListener("click", function () {
-            supprimerPhoto(travaux[i].id, container, i);
+            supprimerPhoto(travaux[i].id);
         });
     }
 }
@@ -347,7 +343,7 @@ function testCompletionFormulaire(url, titre, categorie) {
         disparitionAlerte();
         return;
     } else {
-        envoyerNouveauTravail(formulaireAjout, titre);
+        envoyerNouveauTravail(formulaireAjout);
     }
 }
 
@@ -385,7 +381,7 @@ function effacerImage(image, element) {
 ////////////////////////////////////// Suppression image ////////////////////////////////////////////////////
 
 // fonction pour supprimer l'image de l'API et afficher une confirmation ou l'erreur
-function supprimerPhoto(identifiant, element, index_tableau) {
+function supprimerPhoto(identifiant) {
     fetch("http://localhost:5678/api/works/" + identifiant, {
         method: "DELETE",
         headers: {
@@ -399,8 +395,7 @@ function supprimerPhoto(identifiant, element, index_tableau) {
             texteAlerte.textContent = "Photo supprimée avec succès";
             validationAlerte(alerte, iconeCheck);
             disparitionAlerte();
-            element.style.display = "none";
-            tableau_figure[index_tableau].style.display = "none";
+            nouvelAppel();
         } else if (reponse.status === 401) {
             alerte.style.display = "block";
             texteAlerte.textContent = "Utilisateur non autorisé";
@@ -420,7 +415,6 @@ async function nouvelAppel() {
     const resultat = await reponse.json();
     galerie.innerHTML = "";
     modalePage1.innerHTML = "";
-    tableau_figure = [];
     apparaitrePhotosGalerie(resultat);
     apparaitrePhotosModale(resultat);
 }
