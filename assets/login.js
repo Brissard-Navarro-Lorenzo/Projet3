@@ -19,7 +19,7 @@ form.addEventListener("submit", (event) => {
         body: chargeUtile,
     }).then((reponse) => {
         if (reponse.status === 200) {
-            return reponse.json().then((donnees) => {
+            reponse.json().then((donnees) => {
                 // Stocker le token dans le Local Storage
                 localStorage.setItem("token", donnees.token);
                 window.location.href = "index.html";
