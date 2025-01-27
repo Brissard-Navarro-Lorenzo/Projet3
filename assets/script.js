@@ -189,6 +189,12 @@ if (token) {
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////// Fonctionnement Modale /////////////////////////////////
 
+//fonction pour fermer la modale et l'overlay
+function fermerOverlayEtModale() {
+    modale.style.display = "none";
+    overlay.style.display = "none";
+}
+
 // Ouverture modale au clic sur le bouton "modifier"
 boutonModifier.addEventListener("click", () => {
     modale.style.display = "block";
@@ -196,13 +202,11 @@ boutonModifier.addEventListener("click", () => {
 });
 // Fermeture de la modale au clic sur la croix
 FermerModale.addEventListener("click", function () {
-    modale.style.display = "none";
-    overlay.style.display = "none";
+    fermerOverlayEtModale();
 });
 // Fermeture de la modale si clic en dehors de celle-ci
 overlay.addEventListener("click", function () {
-    modale.style.display = "none";
-    overlay.style.display = "none";
+    fermerOverlayEtModale();
 });
 
 // fonction pour faire apparaitre les images sur la modale et gérer leur suppression au clic
@@ -234,6 +238,18 @@ apparaitrePhotosModale(travaux);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////// Navigation modale //////////////////////////////////////////////////
 
+//fonction pour revenir à la première modale
+function retourAccueilModale() {
+    fleche.style.display = "none";
+    modaleHeader.style.marginBottom = "30px";
+    titreModale.innerText = "Galerie photo";
+    modalePageAjoutPhoto.style.display = "none";
+    modalePage1.style.display = "grid";
+    modaleClose.style.justifyContent = "flex-end";
+    boutonAjoutPhoto.style.display = "inline";
+    boutonValider.style.display = "none";
+}
+
 // passage à la seconde modale
 boutonAjoutPhoto.addEventListener("click", function () {
     fleche.style.display = "inline";
@@ -250,14 +266,7 @@ boutonAjoutPhoto.addEventListener("click", function () {
 
 // Retour à la première modale
 fleche.addEventListener("click", function () {
-    fleche.style.display = "none";
-    modaleHeader.style.marginBottom = "30px";
-    titreModale.innerText = "Galerie photo";
-    modalePageAjoutPhoto.style.display = "none";
-    modalePage1.style.display = "grid";
-    modaleClose.style.justifyContent = "flex-end";
-    boutonAjoutPhoto.style.display = "inline";
-    boutonValider.style.display = "none";
+    retourAccueilModale();
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -437,6 +446,8 @@ function envoyerNouveauTravail(formulaire) {
             formulaire.reset(); //vider le formulaire après validation
             effacerImage(visualisation, contenuDepot);
             nouvelAppel();
+            fermerOverlayEtModale();
+            retourAccueilModale();
         } else if (reponse.status === 400) {
             alerte.style.display = "block";
             texteAlerte.textContent = "Mauvaise requête";
