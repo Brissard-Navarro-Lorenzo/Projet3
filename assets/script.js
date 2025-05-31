@@ -1,10 +1,10 @@
 //////////////////////////////////// Appels à l'API /////////////////////////////////////
 // Récupération des travaux de l'API
-const reponse = await fetch("http://localhost:5678/api/works");
+const reponse = await fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/works");
 const travaux = await reponse.json();
 
 // Récupération des catégories de l'API
-const demandeCategories = await fetch("http://localhost:5678/api/categories");
+const demandeCategories = await fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/categories");
 const recupCategories = await demandeCategories.json();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////// Création des variables ///////////////////////////////////////
@@ -115,12 +115,7 @@ boutonTous.addEventListener("click", () => {
     galerie.innerHTML = "";
     apparaitrePhotosGalerie(travaux);
 
-    modifCouleurFiltres(
-        boutonTous,
-        boutonObjets,
-        boutonAppartements,
-        boutonHotels
-    );
+    modifCouleurFiltres(boutonTous, boutonObjets, boutonAppartements, boutonHotels);
 });
 
 boutonObjets.addEventListener("click", function () {
@@ -130,12 +125,7 @@ boutonObjets.addEventListener("click", function () {
     galerie.innerHTML = "";
     apparaitrePhotosGalerie(travauxObjets);
 
-    modifCouleurFiltres(
-        boutonObjets,
-        boutonTous,
-        boutonAppartements,
-        boutonHotels
-    );
+    modifCouleurFiltres(boutonObjets, boutonTous, boutonAppartements, boutonHotels);
 });
 
 boutonAppartements.addEventListener("click", function () {
@@ -145,12 +135,7 @@ boutonAppartements.addEventListener("click", function () {
     galerie.innerHTML = "";
     apparaitrePhotosGalerie(travauxAppartements);
 
-    modifCouleurFiltres(
-        boutonAppartements,
-        boutonTous,
-        boutonObjets,
-        boutonHotels
-    );
+    modifCouleurFiltres(boutonAppartements, boutonTous, boutonObjets, boutonHotels);
 });
 
 boutonHotels.addEventListener("click", function () {
@@ -160,12 +145,7 @@ boutonHotels.addEventListener("click", function () {
     galerie.innerHTML = "";
     apparaitrePhotosGalerie(travauxHotels);
 
-    modifCouleurFiltres(
-        boutonHotels,
-        boutonTous,
-        boutonObjets,
-        boutonAppartements
-    );
+    modifCouleurFiltres(boutonHotels, boutonTous, boutonObjets, boutonAppartements);
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -391,7 +371,7 @@ function effacerImage(image, element) {
 
 // fonction pour supprimer l'image de l'API et afficher une confirmation ou l'erreur
 function supprimerPhoto(identifiant) {
-    fetch("http://localhost:5678/api/works/" + identifiant, {
+    fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/works/" + identifiant, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -420,7 +400,7 @@ function supprimerPhoto(identifiant) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// Ajout travaux ///////////////////////////////////////////
 async function nouvelAppel() {
-    const reponse = await fetch("http://localhost:5678/api/works");
+    const reponse = await fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/works");
     const resultat = await reponse.json();
     galerie.innerHTML = "";
     modalePage1.innerHTML = "";
@@ -431,7 +411,7 @@ async function nouvelAppel() {
 // fonction pour l'ajout d'un work dans l'API et traiter la réponse
 function envoyerNouveauTravail(formulaire) {
     let formData = new FormData(formulaire);
-    fetch("http://localhost:5678/api/works", {
+    fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/works", {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
