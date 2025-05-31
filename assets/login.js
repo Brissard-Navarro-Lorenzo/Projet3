@@ -13,7 +13,7 @@ form.addEventListener("submit", (event) => {
     };
     // Création de la charge utile au format JSON
     const chargeUtile = JSON.stringify(identifiant);
-    fetch("http://localhost:5678/api/users/login", {
+    fetch("https://backend-sophie-bluel-p9t6.onrender.com/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: chargeUtile,
