@@ -306,7 +306,7 @@ input[type="submit"]:hover,
     cursor: pointer;
 }
 
-#tous {
+.filtres .filtre-actif {
     background-color: #1d6154;
     color: white;
 }

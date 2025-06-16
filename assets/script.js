@@ -66,88 +66,46 @@ apparaitrePhotosGalerie(travaux);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////Apparition des boutons grâce à l'API ////////////////////////////
 
-// fonction pour faire apparaitre les boutons à partir des catégories de l'API
-function apparaitreBoutons(recupCategories) {
-    const boutonTousFiltre = document.createElement("button");
-    boutonTousFiltre.setAttribute("id", "tous");
-    boutonTousFiltre.textContent = "Tous";
-    divFiltres.appendChild(boutonTousFiltre);
-    for (let i = 0; i < recupCategories.length; i++) {
-        const bouton = document.createElement("button");
-        bouton.textContent = recupCategories[i].name;
+// Création des boutons de filtres dynamiquement
+function apparaitreBoutons(categories) {
+    // Ajout du bouton "Tous"
+    const btnTous = document.createElement("button");
+    btnTous.textContent = "Tous";
+    btnTous.dataset.category = "all";
+    btnTous.classList.add("filtre-actif");
+    divFiltres.appendChild(btnTous);
 
-        if (i === 0) {
-            bouton.setAttribute("id", "objets");
-        } else if (i === 1) {
-            bouton.setAttribute("id", "appartements");
-        } else if (i === 2) {
-            bouton.setAttribute("id", "hotels");
-        }
-
-        divFiltres.appendChild(bouton);
-    }
+    // Création des autres boutons
+    categories.forEach((category) => {
+        const btn = document.createElement("button");
+        btn.textContent = category.name;
+        btn.dataset.category = category.name;
+        divFiltres.appendChild(btn);
+    });
 }
 
 apparaitreBoutons(recupCategories);
 
-// Boutons des filtres
-const boutonTous = document.getElementById("tous");
-const boutonObjets = document.getElementById("objets");
-const boutonAppartements = document.getElementById("appartements");
-const boutonHotels = document.getElementById("hotels");
+divFiltres.addEventListener("click", (e) => {
+    const boutonClique = e.target;
+    if (boutonClique.tagName !== "BUTTON") return;
+    const categorie = boutonClique.dataset.category;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////// Gestion des filtres /////////////////////////////////////////////
+    activerFiltre(boutonClique);
+    afficherTravauxFiltres(categorie);
+});
 
-// fonction pour le changement de couleur des boutons de filtre
-function modifCouleurFiltres(boutonSelec, bouton1, bouton2, bouton3) {
-    boutonSelec.style.backgroundColor = "#1D6154";
-    boutonSelec.style.color = "white";
-    bouton1.style.backgroundColor = "white";
-    bouton1.style.color = "#1D6154";
-    bouton2.style.backgroundColor = "white";
-    bouton2.style.color = "#1D6154";
-    bouton3.style.backgroundColor = "white";
-    bouton3.style.color = "#1D6154";
+function activerFiltre(boutonActif) {
+    document.querySelectorAll(".filtres button").forEach((btn) => btn.classList.remove("filtre-actif"));
+    boutonActif.classList.add("filtre-actif");
 }
 
-boutonTous.addEventListener("click", () => {
+function afficherTravauxFiltres(categorie) {
+    const filtres = categorie === "all" ? travaux : travaux.filter((photo) => photo.category.name === categorie);
+
     galerie.innerHTML = "";
-    apparaitrePhotosGalerie(travaux);
-
-    modifCouleurFiltres(boutonTous, boutonObjets, boutonAppartements, boutonHotels);
-});
-
-boutonObjets.addEventListener("click", function () {
-    const travauxObjets = travaux.filter(function (photo) {
-        return photo.category.name === "Objets";
-    });
-    galerie.innerHTML = "";
-    apparaitrePhotosGalerie(travauxObjets);
-
-    modifCouleurFiltres(boutonObjets, boutonTous, boutonAppartements, boutonHotels);
-});
-
-boutonAppartements.addEventListener("click", function () {
-    const travauxAppartements = travaux.filter(function (photo) {
-        return photo.category.name === "Appartements";
-    });
-    galerie.innerHTML = "";
-    apparaitrePhotosGalerie(travauxAppartements);
-
-    modifCouleurFiltres(boutonAppartements, boutonTous, boutonObjets, boutonHotels);
-});
-
-boutonHotels.addEventListener("click", function () {
-    const travauxHotels = travaux.filter(function (photo) {
-        return photo.category.name === "Hotels & restaurants";
-    });
-    galerie.innerHTML = "";
-    apparaitrePhotosGalerie(travauxHotels);
-
-    modifCouleurFiltres(boutonHotels, boutonTous, boutonObjets, boutonAppartements);
-});
-
+    apparaitrePhotosGalerie(filtres);
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////// Modifications si l'utilisateur est connecté ///////////////////////////////////
 
